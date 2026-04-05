@@ -327,10 +327,10 @@ describe('serialize( obj )', function () {
             fakeRegex.toJSON = function () { return '@placeholder'; };
             var output = serialize({ re: fakeRegex });
             // Malicious flags must be stripped; only valid flag chars allowed
-            strictEqual(output.includes('__INJECTED_FLAGS'), false);
-            strictEqual(output.includes('pwned'), false);
+            expect(output.includes('__INJECTED_FLAGS')).to.equal(false);
+            expect(output.includes('pwned')).to.equal(false);
             var obj = eval('obj = ' + output);
-            strictEqual(global.__INJECTED_FLAGS, undefined);
+            expect(global.__INJECTED_FLAGS).to.equal(undefined);
             delete global.__INJECTED_FLAGS;
         });
     });
@@ -364,10 +364,10 @@ describe('serialize( obj )', function () {
             var fakeDate = Object.create(Date.prototype);
             fakeDate.toISOString = function () { return '"+(global.__INJECTED_DATE="pwned")+"'; };
             fakeDate.toJSON = function () { return '2024-01-01'; };
-            throws(function () {
+            expect(function () {
                 serialize({ d: fakeDate });
-            }, TypeError);
-            strictEqual(global.__INJECTED_DATE, undefined);
+            }).to.throw(TypeError);
+            expect(global.__INJECTED_DATE).to.equal(undefined);
         });
     });
 
@@ -428,7 +428,7 @@ describe('serialize( obj )', function () {
             });
             // Should serialize without hanging (treated as a plain object)
             var result = serialize(value);
-            strictEqual(typeof result, 'string');
+            expect(typeof result).to.equal('string');
         });
 
         it('should not hang on Array subclass with overridden filter', function () {
@@ -438,7 +438,7 @@ describe('serialize( obj )', function () {
                 }
             })();
             var result = serialize(arr);
-            strictEqual(typeof result, 'string');
+            expect(typeof result).to.equal('string');
         });
     });
 
