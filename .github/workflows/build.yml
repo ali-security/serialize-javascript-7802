@@ -1,0 +1,24 @@
+name: Package
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js 20.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.x
+      - run: npm pack
+      - name: Upload tgz artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: serialize-javascript-${{ github.sha }}.tgz
+          path: serialize-javascript-*.tgz
+          https://github.com/ali-security/serialize-javascript-7802.git
