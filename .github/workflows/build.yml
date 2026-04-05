@@ -21,4 +21,4 @@ jobs:
         with:
           name: serialize-javascript-${{ github.sha }}.tgz
           path: serialize-javascript-*.tgz
-          https://github.com/ali-security/serialize-javascript-7802.git
+          retention-days: 1
